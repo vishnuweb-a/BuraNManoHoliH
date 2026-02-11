@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Splash a Message to <%= user.UserName %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 flex items-center justify-center min-h-screen p-4">
+
+    <div class="bg-white/10 backdrop-blur-md w-full max-w-md rounded-3xl p-8 shadow-2xl text-white border border-white/20">
+        
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-yellow-400">Bura Na Mano! 🎨</h1>
+            <p class="text-white/70 mt-2">Send an anonymous splash to <strong><%= user.UserName %></strong></p>
+        </div>
+
+        <form action="/splash/submit/<%= user._id %>" method="POST" class="space-y-6">
+            
+            <div>
+                <label class="block text-sm font-medium mb-2">Your Secret Message:</label>
+                <textarea 
+                    name="splashMessage" 
+                    required 
+                    placeholder="Write something fun..."
+                    class="w-full h-32 bg-black/30 border border-white/20 rounded-xl p-4 text-white focus:ring-2 focus:ring-yellow-400 outline-none transition"
+                ></textarea>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium mb-2">Choose your Splash Color:</label>
+                <select name="color" class="w-full bg-black/30 border border-white/20 rounded-xl p-3 text-white focus:ring-2 focus:ring-yellow-400 outline-none cursor-pointer">
+                    <option value="#ff0080" class="text-black">💖 Pink Splash</option>
+                    <option value="#facc15" class="text-black">💛 Yellow Splash</option>
+                    <option value="#4ade80" class="text-black">💚 Green Splash</option>
+                    <option value="#60a5fa" class="text-black">💙 Blue Splash</option>
+                    <option value="#a78bfa" class="text-black">💜 Purple Splash</option>
+                </select>
+            </div>
+
+            <button type="submit" class="w-full bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-4 rounded-xl transition-all transform active:scale-95 shadow-lg">
+                SEND SPLASH 🚀
+            </button>
+        </form>
+
+        <p class="text-[10px] text-center mt-6 opacity-30 uppercase tracking-widest">
+            Your identity is 100% anonymous
+        </p>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+<%- include('partials/header') %>
+
+<div class="glass p-8 rounded-3xl w-full max-w-md mx-4">
+    <h2 class="text-2xl font-semibold text-zinc-900 text-center mb-6">Open Your Inbox</h2>
+    
+    <form action="/api/auth/login" method="POST" class="space-y-4">
+        <div>
+            <label class="block text-zinc-900 mb-1 ml-1">Username</label>
+            <input type="text" name="username" placeholder="Your username" required
+                class="w-full p-3 rounded-xl bg-white/50 border-none focus:ring-2 focus:ring-purple-400 outline-none text-gray-800">
+        </div>
+        
+        <div>
+            <label class="block text-zinc-900 mb-1 ml-1">Password</label>
+            <input type="password" name="password" placeholder="••••••••" required
+                class="w-full p-3 rounded-xl bg-white/50 border-none focus:ring-2 focus:ring-purple-400 outline-none text-gray-800">
+        </div>
+
+        <button type="submit" 
+            class="w-full py-3 mt-4 bg-gradient-to-r from-purple-500 to-blue-400 text-zinc-900 font-bold rounded-xl hover:scale-105 transition-transform shadow-lg">
+            Check My Splashes 📬
+        </button>
+    </form>
+
+    <p class="text-center text-zinc-900 mt-6">
+        New here? <a href="/register" class="underline font-semibold hover:text-yellow-200">Get your link</a>
+    </p>
+</div>
+
+</body>
+</html>
