@@ -11,7 +11,7 @@ const Message = require('../model/message');
 
 function makeUrl(name){
   let  urlName = name.split(' ').join('-');
-  const  url= `http://localhost:${process.env.PORT}/splash/${urlName}`;
+  const  url= `https://buranmanoholih.onrender.com/splash/${urlName}`;
   return url;
 }
 
