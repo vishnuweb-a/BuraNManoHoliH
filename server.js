@@ -43,7 +43,7 @@ app.use('/splash',senderMess);
 
 // This tells the server: if someone visits the main link, send them to login
 app.get('/', (req, res) => {
-    res.redirect('/login'); 
+    res.redirect('register'); 
 });
 
 
