@@ -1,16 +1,14 @@
 const express = require('express');
-const messSend = express.Router();
-const sendMessageSender = require('../controllers/sendmess');
-
-messSend.get('/error',(req,res)=>{
-  res.render('error');
-})
-messSend.get('/:user',sendMessageSender.sendForm);
-
-messSend.post('/submit/:_id',sendMessageSender.sendMess);
+messRouter = express.Router();
+const formSending =  require('../controllers/userController');
+const MessageSending = require('../controllers/messageController');
 
 
 
 
-module.exports = messSend;
+messRouter.get('/:username',formSending.form);
 
+messRouter.post('/submit/:id',MessageSending.message)
+
+
+module.exports =messRouter;

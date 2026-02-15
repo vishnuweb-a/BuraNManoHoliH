@@ -37,10 +37,14 @@ mongoose.connect(process.env.MONGODB_URL).then(()=>{
   console.log(err);
 });
 
+
 app.use('/',Router);
-app.use('/home',mess);
 app.use('/splash',senderMess);
 
+// This tells the server: if someone visits the main link, send them to login
+app.get('/', (req, res) => {
+    res.redirect('/login'); 
+});
 
 
 

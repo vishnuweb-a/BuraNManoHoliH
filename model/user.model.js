@@ -3,8 +3,8 @@ const mongoose =require('mongoose');
 const userSchema = new mongoose.Schema({
   UserName :{
     type :String,
-    required :true,
-    unique:true,
+   
+    
     trim:true,
   },
   password :{

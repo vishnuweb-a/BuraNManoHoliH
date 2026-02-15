@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Splashes | <%= userd.UserName %></title>
+    <title>Dashboard | <%= userd.UserName %></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -36,70 +36,62 @@
             🎨 <span class="text-yellow-400">Bura</span> Na Mano
         </div>
         <div class="flex items-center gap-4">
-            <span class="hidden md:block opacity-80">Welcome, <%= userd.UserName %></span>
+            <span class="hidden md:block opacity-80 uppercase text-xs tracking-widest">Player: <%= userd.UserName %></span>
             <a href="/logout" class="bg-red-500/30 hover:bg-red-500/50 px-5 py-2 rounded-2xl text-xs font-bold transition">LOGOUT</a>
         </div>
     </nav>
 
     <main class="max-w-6xl mx-auto">
-      <section class="glass rounded-[2rem] p-8 mb-10 border-2 border-white/10 text-center relative overflow-hidden">
-    <div class="absolute -top-10 -right-10 w-32 h-32 bg-pink-500/20 blur-3xl"></div>
-    
-    <div class="relative z-10">
-        <h2 class="text-xl font-semibold text-white mb-4">Your Secret Splash Link 🚀</h2>
-        
-        <div class="flex flex-col md:flex-row items-center justify-center gap-3">
-            <input type="text" readonly id="myLink" 
-                value="<%= userd.splashLinkUrl %>" 
-                class="w-full md:w-96 p-4 rounded-2xl bg-black/20 text-yellow-300 border-none outline-none text-center font-mono text-sm">
+        <section class="glass-panel rounded-[2rem] p-8 mb-10 border-2 border-white/10 text-center relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-pink-500/20 blur-3xl"></div>
             
-            <div class="flex gap-2 w-full md:w-auto">
-                <button onclick="copyLink()" class="flex-1 bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-6 py-4 rounded-2xl transition transform active:scale-95 shadow-lg">
-                    COPY
-                </button>
+            <div class="relative z-10">
+                <h2 class="text-xl font-semibold text-white mb-4">Your Secret Splash Link 🚀</h2>
                 
-                <a href="https://wa.me/?text=Splash colors on me anonymously! 🎨 <%= userd.splashLinkUrl %>" target="_blank" 
-                   class="flex-1 bg-green-500 hover:bg-green-400 text-white font-bold px-6 py-4 rounded-2xl transition flex items-center justify-center shadow-lg">
-                    WHATSAPP
-                </a>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-3">
+                    <input type="text" readonly id="myLink" 
+                        value="<%= userd.splashLinkUrl %>" 
+                        class="w-full md:w-96 p-4 rounded-2xl bg-black/20 text-yellow-300 border-none outline-none text-center font-mono text-sm">
+                    
+                    <div class="flex gap-2 w-full md:w-auto">
+                        <button onclick="copyLink(event)" class="flex-1 bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-6 py-4 rounded-2xl transition transform active:scale-95 shadow-lg">
+                            COPY
+                        </button>
+                        
+                        <% 
+                           const shareText = `Bura Na Mano Holi Hai! 🎨 Send me secret splashes anonymously! Click here: ${userd.splashLinkUrl}`;
+                           const waUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+                        %>
+                        <a href="<%= waUrl %>" target="_blank" 
+                           class="flex-1 bg-green-500 hover:bg-green-400 text-white font-bold px-6 py-4 rounded-2xl transition flex items-center justify-center shadow-lg">
+                            WHATSAPP
+                        </a>
+                    </div>
+                </div>
+                <p class="text-white/40 text-[10px] mt-4 uppercase tracking-widest">Share this link to see who's splashing you!</p>
             </div>
-        </div>
-        <p class="text-white/40 text-[10px] mt-4 uppercase tracking-widest">Share this link to receive secret messages</p>
-    </div>
-</section>
+        </section>
 
-<script>
-    function copyLink() {
-        const copyText = document.getElementById("myLink");
-        copyText.select();
-        copyText.setSelectionRange(0, 99999); 
-        
-        navigator.clipboard.writeText(copyText.value).then(() => {
-            // Visual feedback on the button
-            const btn = event.target;
-            const originalText = btn.innerText;
-            btn.innerText = "COPIED! ✨";
-            setTimeout(() => { btn.innerText = originalText; }, 2000);
-        });
-    }
-</script>
-        
         <div class="mb-10 text-center md:text-left">
             <h2 class="text-3xl font-bold mb-2">Your Holi Inbox</h2>
-            <p class="opacity-70">You have received <b><%= splashmess.length %></b> splashes from your friends.</p>
+            <p class="opacity-70">You have received <b><%= splashmess ? splashmess.length : 0 %></b> secret splashes.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <% if (splashmess && splashmess.length > 0) { %>
                 
-                <% splashmess.forEach((msg) => { %>
-                    <div class="message-card p-8 rounded-[2rem] relative overflow-hidden group">
+                <% splashmess.forEach((msg, index) => { 
+                    // Use sender's chosen color, or a fallback color from our palette
+                    const cardColor = msg.color || '#ec4899'; 
+                %>
+                    <div class="message-card p-8 rounded-[2rem] relative overflow-hidden group flex flex-col min-h-[250px]">
                         
-                        <div class="absolute -top-6 -left-6 w-20 h-20 rounded-full blur-3xl opacity-40 group-hover:opacity-70 transition"
-                             ></div>
+                        <div class="absolute -top-6 -left-6 w-24 h-24 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition duration-500"
+                             style="background-color: pink"></div>
 
-                        <div class="relative z-10">
-                            <div class="text-5xl mb-4 opacity-30 group-hover:opacity-100 transition duration-500">“</div>
+                        <div class="relative z-10 flex-grow">
+                            <div class="text-5xl mb-4 opacity-20 group-hover:opacity-100 transition duration-500" 
+                                 style="color: pink">“</div>
                             <p class="text-xl font-medium leading-relaxed mb-6">
                                 <%= msg.splashMessage %>
                             </p>
@@ -107,26 +99,48 @@
 
                         <div class="mt-auto flex justify-between items-center border-t border-white/10 pt-4">
                             <span class="text-[10px] tracking-widest uppercase opacity-50">
-                                <%= new Date(msg.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) %>
+                                <%= msg.createdAt ? new Date(msg.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : 'Just Now' %>
                             </span>
                             
                             <div class="flex items-center gap-2">
-                                <span class="text-[9px] opacity-40 uppercase">Gulaal</span>
-                                <div class="w-3 h-3 rounded-full shadow-lg" ></div>
+                                <span class="text-[9px] opacity-40 uppercase">Splash</span>
+                                <div class="w-3 h-3 rounded-full shadow-lg" style="background-color: pink"></div>
                             </div>
                         </div>
                     </div>
                 <% }) %>
 
             <% } else { %>
-                <div class="col-span-full py-24 glass-panel rounded-[3rem] text-center">
+                <div class="col-span-full py-24 glass-panel rounded-[3rem] text-center border-2 border-dashed border-white/5">
                     <div class="text-7xl mb-6">🏜️</div>
-                    <h3 class="text-2xl font-bold mb-2">No splashes yet!</h3>
-                    <p class="opacity-60">Share your profile link to start receiving secret messages.</p>
+                    <h3 class="text-2xl font-bold mb-2">Your bucket is dry!</h3>
+                    <p class="opacity-60">Share your link to start receiving secret colors.</p>
                 </div>
             <% } %>
         </div>
     </main>
 
+    <script>
+        // Copy Link Logic
+        function copyLink(e) {
+            const copyText = document.getElementById("myLink");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); 
+            
+            navigator.clipboard.writeText(copyText.value).then(() => {
+                const btn = e.target;
+                const originalText = btn.innerText;
+                btn.innerText = "COPIED! ✨";
+                btn.style.backgroundColor = "white";
+                btn.style.color = "black";
+                
+                setTimeout(() => { 
+                    btn.innerText = originalText; 
+                    btn.style.backgroundColor = ""; 
+                    btn.style.color = "";
+                }, 2000);
+            });
+        }
+    </script>
 </body>
 </html>
